@@ -90,6 +90,8 @@ public class FoodFacadeREST extends AbstractFacade<Food> {
         return em;
     }
 
+    //--------------------------------------------------------------------------
+    // Task 3 a
     @GET
     @Path("findByFoodName/{foodName}")
     @Produces({"application/json"})

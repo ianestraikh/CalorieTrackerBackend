@@ -15,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -93,6 +94,8 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
         return em;
     }
 
+    //--------------------------------------------------------------------------
+    // Task 3 a
     @GET
     @Path("findByUserFname/{userFname}")
     @Produces({"application/json"})
@@ -211,4 +214,17 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
         query.setParameter("stepsPerMile", stepsPerMile);
         return query.getResultList();
     }
+
+    //--------------------------------------------------------------------------
+    // Task 3 b
+    @GET
+    @Path("findByFnameAndLname/{userFname}/{userLname}")
+    @Produces({"application/json"})
+    public List<Usr> findByFnameAndLname(@PathParam("userFname") String userFname, @PathParam("userLname") String userLname) {
+        TypedQuery<Usr> query = em.createQuery("SELECT u FROM Usr u WHERE u.userFname = :userFname and u.userLname = :userLname", Usr.class);
+        query.setParameter("userFname", userFname);
+        query.setParameter("userLname", userLname);
+        return query.getResultList();
+    }
+    
 }

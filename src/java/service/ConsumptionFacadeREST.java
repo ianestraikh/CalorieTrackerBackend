@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -92,6 +93,8 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
         return em;
     }
 
+    //--------------------------------------------------------------------------
+    // Task 3 a
     @GET
     @Path("findByConsumptionDate/{consumptionDate}")
     @Produces({"application/json"})
@@ -115,4 +118,20 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
         return query.getResultList();
     }
 
+    //--------------------------------------------------------------------------
+    // Task 3 c
+    @GET
+    @Path("findByCalorieAmountGreaterThanAndUserGender/{calorieAmount}/{userGender}")
+    @Produces({"application/json"})
+    public List<Consumption> findByCalorieAmountAndUserGender(@PathParam("calorieAmount") int calorieAmount, @PathParam("userGender") String userGenderString) {
+        if (userGenderString.equals("F") || userGenderString.equals("M")) {
+            Character userGender = userGenderString.charAt(0);
+            TypedQuery<Consumption> query = em.createQuery("SELECT c FROM Consumption c WHERE c.foodId.calorieAmount > :calorieAmount and c.userId.userGender = :userGender", Consumption.class);
+            query.setParameter("calorieAmount", calorieAmount);
+            query.setParameter("userGender", userGender);
+            return query.getResultList();
+        } else {
+            throw new IllegalArgumentException("userGender must be char 'F' or char 'M'.");
+        }
+    }
 }

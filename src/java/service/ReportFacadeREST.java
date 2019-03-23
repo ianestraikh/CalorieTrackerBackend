@@ -6,10 +6,14 @@
 package service;
 
 import entities.Report;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -87,5 +91,56 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    //--------------------------------------------------------------------------
+    // Task 3 a
+    @GET
+    @Path("findByReportDate/{reportDate}")
+    @Produces({"application/json"})
+    public List<Report> findByReportDate(@PathParam("reportDate") String reportDateString) {
+        try {
+            Date reportDate = new SimpleDateFormat("yyyy-MM-dd").parse(reportDateString);
+            Query query = em.createNamedQuery("Report.findByReportDate");
+            query.setParameter("reportDate", reportDate);
+            return query.getResultList();
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("reportDate must have 'yyyy-MM-dd' format.");
+        }
+    }
+
+    @GET
+    @Path("findByCaloriesConsumed/{caloriesConsumed}")
+    @Produces({"application/json"})
+    public List<Report> findByCaloriesConsumed(@PathParam("caloriesConsumed") int caloriesConsumed) {
+        Query query = em.createNamedQuery("Report.findByCaloriesConsumed");
+        query.setParameter("caloriesConsumed", caloriesConsumed);
+        return query.getResultList();
+    }
+
+    @GET
+    @Path("findByCaloriesBurned/{caloriesBurned}")
+    @Produces({"application/json"})
+    public List<Report> findByCaloriesBurned(@PathParam("caloriesBurned") int caloriesBurned) {
+        Query query = em.createNamedQuery("Report.findByCaloriesBurned");
+        query.setParameter("caloriesBurned", caloriesBurned);
+        return query.getResultList();
+    }
+
+    @GET
+    @Path("findByStepsTaken/{stepsTaken}")
+    @Produces({"application/json"})
+    public List<Report> findByStepsTaken(@PathParam("stepsTaken") int stepsTaken) {
+        Query query = em.createNamedQuery("Report.findByStepsTaken");
+        query.setParameter("stepsTaken", stepsTaken);
+        return query.getResultList();
+    }
+
+    @GET
+    @Path("findByCalorieGoal/{calorieGoal}")
+    @Produces({"application/json"})
+    public List<Report> findByCalorieGoal(@PathParam("calorieGoal") int calorieGoal) {
+        Query query = em.createNamedQuery("Report.findByCalorieGoal");
+        query.setParameter("calorieGoal", calorieGoal);
+        return query.getResultList();
+    }
 }
