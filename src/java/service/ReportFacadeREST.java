@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -143,4 +144,14 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
         query.setParameter("calorieGoal", calorieGoal);
         return query.getResultList();
     }
+    
+    @GET
+    @Path("findByUserId/{userId}")
+    @Produces({"application/json"})
+    public List<Report> findByUserId(@PathParam("userId") int userId) {
+        TypedQuery<Report> query = em.createQuery("SELECT r FROM Report r WHERE r.userId.userId = :userId", Report.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+    
 }

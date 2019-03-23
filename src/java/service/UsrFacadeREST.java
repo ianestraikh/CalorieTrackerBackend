@@ -9,6 +9,8 @@ import entities.Usr;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -225,6 +227,73 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
         query.setParameter("userFname", userFname);
         query.setParameter("userLname", userLname);
         return query.getResultList();
+    }
+
+    //--------------------------------------------------------------------------
+    // Task 4 a
+    @GET
+    @Path("calculateCaloriesBurnedPerStep/{userId}")
+    @Produces({"text/plain"})
+    public double calculateCaloriesBurnedPerStep(@PathParam("userId") int userId) {
+        Usr user = super.find(userId);
+
+        int stepsPerMile = user.getStepsPerMile();
+        double userWeight = user.getUserWeight().doubleValue() * 2.20462; // in pounds
+
+        double caloriesBurnedPerMile = userWeight * 0.49;
+
+        return caloriesBurnedPerMile / stepsPerMile;
+    }
+
+    //--------------------------------------------------------------------------
+    // Task 4 b
+    @GET
+    @Path("calculateBasalMetabolicRate/{userId}")
+    @Produces({"text/plain"})
+    public double calculateBasalMetabolicRate(@PathParam("userId") int userId) {
+        Usr user = super.find(userId);
+        Character gender = user.getUserGender();
+        double weight = user.getUserWeight().doubleValue();
+        double height = user.getUserHeight().doubleValue();
+
+        // convert Date to LocalDate: Date -> Instant -> ZonedDateTime -> LocalDate
+        LocalDate dob = user.getUserDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        int age = LocalDate.now().getYear() - dob.getYear();
+
+        double basalMetabolicRate = 0.0;
+        if (gender == 'F') {
+            basalMetabolicRate = 9.563 * weight + 1.85 * height - 4.676 * age + 655.1;
+        } else if (gender == 'M') {
+            basalMetabolicRate = 13.75 * weight + 5.003 * height - 6.755 * age + 66.5;
+        }
+
+        return basalMetabolicRate;
+    }
+
+    //--------------------------------------------------------------------------
+    // Task 4 c
+    @GET
+    @Path("calculateTotalCaloriesBurned/{userId}")
+    @Produces({"text/plain"})
+    public double calculateTotalCaloriesBurned(@PathParam("userId") int userId) {
+        Usr user = super.find(userId);
+        int levelOfActivity = user.getLevelOfActivity();
+        double basalMetabolicRate = calculateBasalMetabolicRate(userId);
+        switch (levelOfActivity) {
+            case 1:
+                return basalMetabolicRate * 1.2;
+            case 2:
+                return basalMetabolicRate * 1.375;
+            case 3:
+                return basalMetabolicRate * 1.55;
+            case 4:
+                return basalMetabolicRate * 1.725;
+            case 5:
+                return basalMetabolicRate * 1.9;
+            default:
+                return 0.0;
+        }
     }
     
 }
