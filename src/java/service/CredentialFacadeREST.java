@@ -92,6 +92,8 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
         return em;
     }
 
+    //--------------------------------------------------------------------------
+    // Task 3 a
     @GET
     @Path("findByUsername/{username}")
     @Produces({"application/json"})
@@ -114,14 +116,33 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
     @Path("findBySignupDate/{signupDate}")
     @Produces({"application/json"})
     public List<Credential> findBySignupDate(@PathParam("signupDate") String signupDateString) {
-                try {
+        try {
             Date signupDate = new SimpleDateFormat("yyyy-MM-dd").parse(signupDateString);
-        Query query = em.createNamedQuery("Credential.findBySignupDate");
-        query.setParameter("signupDate", signupDate);
-        return query.getResultList();
+            Query query = em.createNamedQuery("Credential.findBySignupDate");
+            query.setParameter("signupDate", signupDate);
+            return query.getResultList();
         } catch (ParseException e) {
             throw new IllegalArgumentException("signupDate must have 'yyyy-MM-dd' format.");
         }
+    }
 
+    //--------------------------------------------------------------------------
+    // Task 3 d
+    @GET
+    @Path("findBySignupDateGreaterThanAndUserPostcodeFirstChar/{signupDate}/{userPostcodeFirstChar}")
+    @Produces({"application/json"})
+    public List<Credential> findBySignupDate(@PathParam("signupDate") String signupDateString, @PathParam("userPostcodeFirstChar") String userPostcodeFirstChar) {
+        try {
+            if (userPostcodeFirstChar.length() != 1) {
+                throw new IllegalArgumentException("userPostcodeFirstChar must be 1 char.");
+            }
+            Date signupDate = new SimpleDateFormat("yyyy-MM-dd").parse(signupDateString);
+            Query query = em.createNamedQuery("Credential.findBySignupDateGreaterThanAndUserPostcodeFirstChar");
+            query.setParameter("signupDate", signupDate);
+            query.setParameter("userPostcodeFirstChar", userPostcodeFirstChar.charAt(0) + "%");
+            return query.getResultList();
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("signupDate must have 'yyyy-MM-dd' format.");
+        }
     }
 }
