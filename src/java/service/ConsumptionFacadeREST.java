@@ -118,6 +118,41 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
         return query.getResultList();
     }
 
+    @GET
+    @Path("findByUserId/{userId}")
+    @Produces({"application/json"})
+    public List<Consumption> findByUserId(@PathParam("userId") int userId) {
+        TypedQuery<Consumption> query = em.createQuery("SELECT c FROM Consumption c WHERE c.userId.userId = :userId", Consumption.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+
+    @GET
+    @Path("findByFoodId/{foodId}")
+    @Produces({"application/json"})
+    public List<Consumption> findByFoodId(@PathParam("foodId") int foodId) {
+        TypedQuery<Consumption> query = em.createQuery("SELECT c FROM Consumption c WHERE c.foodId.foodId = :foodId", Consumption.class);
+        query.setParameter("foodId", foodId);
+        return query.getResultList();
+    }
+
+    //--------------------------------------------------------------------------
+    // Task 3 b
+    @GET
+    @Path("findByUserIdAndConsumptionDate/{userId}/{consumptionDate}")
+    @Produces({"application/json"})
+    public List<Consumption> findByUserIdAndConsumptionDate(@PathParam("userId") int userId, @PathParam("consumptionDate") String consumptionDateString) {
+        try {
+            Date consumptionDate = new SimpleDateFormat("yyyy-MM-dd").parse(consumptionDateString);
+            TypedQuery<Consumption> query = em.createQuery("SELECT c FROM Consumption c WHERE c.userId.userId = :userId and c.consumptionDate = :consumptionDate", Consumption.class);
+            query.setParameter("userId", userId);
+            query.setParameter("consumptionDate", consumptionDate);
+            return query.getResultList();
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("consumptionDate must have 'yyyy-MM-dd' format.");
+        }
+    }
+
     //--------------------------------------------------------------------------
     // Task 3 c
     @GET
@@ -133,5 +168,20 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
         } else {
             throw new IllegalArgumentException("userGender must be char 'F' or char 'M'.");
         }
+    }
+
+    //--------------------------------------------------------------------------
+    // Task 4 d
+    @GET
+    @Path("calculateTotalCaloriesConsumed/{userId}/{consumptionDate}")
+    @Produces({"text/plain"})
+    public int calculateTotalCaloriesConsumed(@PathParam("userId") int userId, @PathParam("consumptionDate") String consumptionDateString) {
+        List<Consumption> consumptions = findByUserIdAndConsumptionDate(userId, consumptionDateString);
+        int totalCaloriesAmount = 0;
+        for (Consumption c: consumptions) {
+            int caloriesAmount = c.getFoodId().getCalorieAmount() * c.getQuantity();
+            totalCaloriesAmount += caloriesAmount;
+        }
+        return totalCaloriesAmount;
     }
 }

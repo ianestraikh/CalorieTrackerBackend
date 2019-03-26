@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -125,7 +126,16 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
             throw new IllegalArgumentException("signupDate must have 'yyyy-MM-dd' format.");
         }
     }
-
+    
+    @GET
+    @Path("findByUserId/{userId}")
+    @Produces({"application/json"})
+    public List<Credential> findByUserId(@PathParam("userId") int userId) {
+        TypedQuery<Credential> query = em.createQuery("SELECT c FROM Credential c WHERE c.userId.userId = :userId", Credential.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+    
     //--------------------------------------------------------------------------
     // Task 3 d
     @GET
