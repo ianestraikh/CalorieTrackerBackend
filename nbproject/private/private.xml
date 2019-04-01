@@ -5,7 +5,9 @@
         <group>
             <file>file:/C:/Users/ian/Documents/NetBeansProjects/CalorieTracker/src/java/service/UsrFacadeREST.java</file>
             <file>file:/C:/Users/ian/Documents/NetBeansProjects/CalorieTracker/src/java/service/ConsumptionFacadeREST.java</file>
+            <file>file:/C:/Users/ian/Documents/NetBeansProjects/CalorieTracker/src/java/service/ReportFacadeREST.java</file>
             <file>file:/C:/Users/ian/Documents/NetBeansProjects/CalorieTracker/src/java/entities/Usr.java</file>
+            <file>file:/C:/Users/ian/Documents/NetBeansProjects/CalorieTracker/src/java/entities/Report.java</file>
         </group>
     </open-files>
 </project-private>
