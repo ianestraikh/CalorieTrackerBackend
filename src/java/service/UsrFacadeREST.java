@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -259,7 +260,7 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
         // convert Date to LocalDate: Date -> Instant -> ZonedDateTime -> LocalDate
         LocalDate dob = user.getUserDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        int age = LocalDate.now().getYear() - dob.getYear();
+        int age = Period.between(dob, LocalDate.now()).getYears();
 
         double basalMetabolicRate = 0.0;
         if (gender == 'F') {
