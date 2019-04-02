@@ -219,18 +219,6 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
     }
 
     //--------------------------------------------------------------------------
-    // Task 3 b
-    @GET
-    @Path("findByFnameAndLname/{userFname}/{userLname}")
-    @Produces({"application/json"})
-    public List<Usr> findByFnameAndLname(@PathParam("userFname") String userFname, @PathParam("userLname") String userLname) {
-        TypedQuery<Usr> query = em.createQuery("SELECT u FROM Usr u WHERE u.userFname = :userFname and u.userLname = :userLname", Usr.class);
-        query.setParameter("userFname", userFname);
-        query.setParameter("userLname", userLname);
-        return query.getResultList();
-    }
-
-    //--------------------------------------------------------------------------
     // Task 4 a
     @GET
     @Path("calculateCaloriesBurnedPerStep/{userId}")
