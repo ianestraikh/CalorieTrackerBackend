@@ -177,7 +177,8 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
 
             int caloriesConsumed = (int) queryList.get(0)[0];
             int caloriesBurned = (int) queryList.get(0)[1];
-            int remainingCalories =  (caloriesConsumed - caloriesBurned) - (int) queryList.get(0)[2];
+            int goal = (int) queryList.get(0)[2];
+            int remainingCalories =  (caloriesConsumed - caloriesBurned) - goal;
             JsonObject jsonObject = Json.createObjectBuilder()
                     .add("caloriesConsumed", caloriesConsumed)
                     .add("caloriesBurned", caloriesBurned)
