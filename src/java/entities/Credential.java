@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Credential.findBySignupDate", query = "SELECT c FROM Credential c WHERE c.signupDate = :signupDate")
     //--------------------------------------------------------------------------
     // Task 3 d
-    , @NamedQuery(name = "Credential.findBySignupDateGreaterThanAndUserPostcodeFirstChar", query = "SELECT c FROM Credential c WHERE c.signupDate > :signupDate and c.userId.userPostcode LIKE :userPostcodeFirstChar")})
+    , @NamedQuery(name = "Credential.findBySignupDateGreaterThanAndUserPostcodeFirstChar", query = "SELECT c FROM Credential c WHERE c.signupDate > :signupDate and c.userId.postcode LIKE :postcodeFirstChar")})
 public class Credential implements Serializable {
 
     private static final long serialVersionUID = 1L;

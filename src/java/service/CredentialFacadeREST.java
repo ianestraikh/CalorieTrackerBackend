@@ -139,9 +139,9 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
     //--------------------------------------------------------------------------
     // Task 3 d
     @GET
-    @Path("findBySignupDateGreaterThanAndUserPostcodeFirstChar/{signupDate}/{userPostcodeFirstChar}")
+    @Path("findBySignupDateGreaterThanAndUserPostcodeFirstChar/{signupDate}/{postcodeFirstChar}")
     @Produces({"application/json"})
-    public List<Credential> findBySignupDate(@PathParam("signupDate") String signupDateString, @PathParam("userPostcodeFirstChar") String userPostcodeFirstChar) {
+    public List<Credential> findBySignupDate(@PathParam("signupDate") String signupDateString, @PathParam("postcodeFirstChar") String userPostcodeFirstChar) {
         try {
             if (userPostcodeFirstChar.length() != 1) {
                 throw new IllegalArgumentException("userPostcodeFirstChar must be 1 char.");
@@ -149,7 +149,7 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
             Date signupDate = new SimpleDateFormat("yyyy-MM-dd").parse(signupDateString);
             Query query = em.createNamedQuery("Credential.findBySignupDateGreaterThanAndUserPostcodeFirstChar");
             query.setParameter("signupDate", signupDate);
-            query.setParameter("userPostcodeFirstChar", userPostcodeFirstChar.charAt(0) + "%");
+            query.setParameter("postcodeFirstChar", userPostcodeFirstChar.charAt(0) + "%");
             return query.getResultList();
         } catch (ParseException e) {
             throw new IllegalArgumentException("signupDate must have 'yyyy-MM-dd' format.");

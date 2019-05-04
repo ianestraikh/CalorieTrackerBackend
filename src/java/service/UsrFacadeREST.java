@@ -18,7 +18,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -100,68 +99,68 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
     //--------------------------------------------------------------------------
     // Task 3 a
     @GET
-    @Path("findByUserFname/{userFname}")
+    @Path("findByUserFname/{fname}")
     @Produces({"application/json"})
-    public List<Usr> findByUserFname(@PathParam("userFname") String userFname) {
+    public List<Usr> findByUserFname(@PathParam("fname") String userFname) {
         Query query = em.createNamedQuery("Usr.findByUserFname");
-        query.setParameter("userFname", userFname);
+        query.setParameter("fname", userFname);
         return query.getResultList();
     }
 
     @GET
-    @Path("findByUserLname/{userLname}")
+    @Path("findByUserLname/{lname}")
     @Produces({"application/json"})
-    public List<Usr> findByUserLname(@PathParam("userLname") String userLname) {
+    public List<Usr> findByUserLname(@PathParam("lname") String userLname) {
         Query query = em.createNamedQuery("Usr.findByUserLname");
-        query.setParameter("userLname", userLname);
+        query.setParameter("lname", userLname);
         return query.getResultList();
     }
 
     @GET
-    @Path("findByUserEmail/{userEmail}")
+    @Path("findByUserEmail/{email}")
     @Produces({"application/json"})
-    public List<Usr> findByUserEmail(@PathParam("userEmail") String userEmail) {
+    public List<Usr> findByUserEmail(@PathParam("email") String userEmail) {
         Query query = em.createNamedQuery("Usr.findByUserEmail");
-        query.setParameter("userEmail", userEmail);
+        query.setParameter("email", userEmail);
         return query.getResultList();
     }
 
     @GET
-    @Path("findByUserDob/{userDob}")
+    @Path("findByUserDob/{dob}")
     @Produces({"application/json"})
-    public List<Usr> findByUserDob(@PathParam("userDob") String userDobString) {
+    public List<Usr> findByUserDob(@PathParam("dob") String userDobString) {
         try {
             Date userDob = new SimpleDateFormat("yyyy-MM-dd").parse(userDobString);
             Query query = em.createNamedQuery("Usr.findByUserDob");
-            query.setParameter("userDob", userDob);
+            query.setParameter("dob", userDob);
             return query.getResultList();
         } catch (ParseException e) {
-            throw new IllegalArgumentException("userDob must have 'yyyy-MM-dd' format.");
+            throw new IllegalArgumentException("dob must have 'yyyy-MM-dd' format.");
         }
     }
 
     @GET
-    @Path("findByUserHeight/{userHeight}")
+    @Path("findByUserHeight/{height}")
     @Produces({"application/json"})
-    public List<Usr> findByUserHeight(@PathParam("userHeight") String userHeightString) {
+    public List<Usr> findByUserHeight(@PathParam("height") String userHeightString) {
         try {
             BigDecimal userHeight = new BigDecimal(userHeightString);
             Query query = em.createNamedQuery("Usr.findByUserHeight");
-            query.setParameter("userHeight", userHeight);
+            query.setParameter("height", userHeight);
             return query.getResultList();
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("userHeigth must be decimal.");
+            throw new IllegalArgumentException("heigth must be decimal.");
         }
     }
 
     @GET
-    @Path("findByUserWeight/{userWeight}")
+    @Path("findByUserWeight/{weight}")
     @Produces({"application/json"})
-    public List<Usr> findByUserWeight(@PathParam("userWeight") String userWeightString) {
+    public List<Usr> findByUserWeight(@PathParam("weight") String userWeightString) {
         try {
             BigDecimal userWeight = new BigDecimal(userWeightString);
             Query query = em.createNamedQuery("Usr.findByUserWeight");
-            query.setParameter("userWeight", userWeight);
+            query.setParameter("weight", userWeight);
             return query.getResultList();
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("userWeight must be decimal.");
@@ -169,34 +168,34 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
     }
 
     @GET
-    @Path("findByUserGender/{userGender}")
+    @Path("findByUserGender/{gender}")
     @Produces({"application/json"})
-    public List<Usr> findByUserGender(@PathParam("userGender") String userGenderString) {
+    public List<Usr> findByUserGender(@PathParam("gender") String userGenderString) {
         if (userGenderString.equals("F") || userGenderString.equals("M")) {
             Character userGender = userGenderString.charAt(0);
             Query query = em.createNamedQuery("Usr.findByUserGender");
-            query.setParameter("userGender", userGender);
+            query.setParameter("gender", userGender);
             return query.getResultList();
         } else {
-            throw new IllegalArgumentException("userGender must be char 'F' or char 'M'.");
+            throw new IllegalArgumentException("gender must be char 'F' or char 'M'.");
         }
     }
 
     @GET
-    @Path("findByUserAddress/{userAddress}")
+    @Path("findByUserAddress/{address}")
     @Produces({"application/json"})
-    public List<Usr> findByUserAddress(@PathParam("userAddress") String userAddress) {
+    public List<Usr> findByUserAddress(@PathParam("address") String userAddress) {
         Query query = em.createNamedQuery("Usr.findByUserAddress");
-        query.setParameter("userAddress", userAddress);
+        query.setParameter("address", userAddress);
         return query.getResultList();
     }
 
     @GET
     @Path("findByUserPostcode/{userPostcode}")
     @Produces({"application/json"})
-    public List<Usr> findByUserPostcode(@PathParam("userPostcode") String userPostcode) {
+    public List<Usr> findByUserPostcode(@PathParam("postcode") String userPostcode) {
         Query query = em.createNamedQuery("Usr.findByUserPostcode");
-        query.setParameter("userPostcode", userPostcode);
+        query.setParameter("postcode", userPostcode);
         return query.getResultList();
     }
 
@@ -227,7 +226,7 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
         Usr user = super.find(userId);
 
         int stepsPerMile = user.getStepsPerMile();
-        double userWeight = user.getUserWeight().doubleValue() * 2.20462; // in pounds
+        double userWeight = user.getWeight().doubleValue() * 2.20462; // in pounds
 
         double caloriesBurnedPerMile = userWeight * 0.49;
 
@@ -241,12 +240,12 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
     @Produces({"text/plain"})
     public double calculateBasalMetabolicRate(@PathParam("userId") int userId) {
         Usr user = super.find(userId);
-        Character gender = user.getUserGender();
-        double weight = user.getUserWeight().doubleValue();
-        double height = user.getUserHeight().doubleValue();
+        Character gender = user.getGender();
+        double weight = user.getWeight().doubleValue();
+        double height = user.getHeight().doubleValue();
 
         // convert Date to LocalDate: Date -> Instant -> ZonedDateTime -> LocalDate
-        LocalDate dob = user.getUserDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate dob = user.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         int age = Period.between(dob, LocalDate.now()).getYears();
 

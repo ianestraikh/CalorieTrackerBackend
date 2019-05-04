@@ -37,15 +37,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Usr.findAll", query = "SELECT u FROM Usr u")
     , @NamedQuery(name = "Usr.findByUserId", query = "SELECT u FROM Usr u WHERE u.userId = :userId")
-    , @NamedQuery(name = "Usr.findByUserFname", query = "SELECT u FROM Usr u WHERE u.userFname = :userFname")
-    , @NamedQuery(name = "Usr.findByUserLname", query = "SELECT u FROM Usr u WHERE u.userLname = :userLname")
-    , @NamedQuery(name = "Usr.findByUserEmail", query = "SELECT u FROM Usr u WHERE u.userEmail = :userEmail")
-    , @NamedQuery(name = "Usr.findByUserDob", query = "SELECT u FROM Usr u WHERE u.userDob = :userDob")
-    , @NamedQuery(name = "Usr.findByUserHeight", query = "SELECT u FROM Usr u WHERE u.userHeight = :userHeight")
-    , @NamedQuery(name = "Usr.findByUserWeight", query = "SELECT u FROM Usr u WHERE u.userWeight = :userWeight")
-    , @NamedQuery(name = "Usr.findByUserGender", query = "SELECT u FROM Usr u WHERE u.userGender = :userGender")
-    , @NamedQuery(name = "Usr.findByUserAddress", query = "SELECT u FROM Usr u WHERE u.userAddress = :userAddress")
-    , @NamedQuery(name = "Usr.findByUserPostcode", query = "SELECT u FROM Usr u WHERE u.userPostcode = :userPostcode")
+    , @NamedQuery(name = "Usr.findByUserFname", query = "SELECT u FROM Usr u WHERE u.fname = :fname")
+    , @NamedQuery(name = "Usr.findByUserLname", query = "SELECT u FROM Usr u WHERE u.lname = :lname")
+    , @NamedQuery(name = "Usr.findByUserEmail", query = "SELECT u FROM Usr u WHERE u.email = :email")
+    , @NamedQuery(name = "Usr.findByUserDob", query = "SELECT u FROM Usr u WHERE u.dob = :dob")
+    , @NamedQuery(name = "Usr.findByUserHeight", query = "SELECT u FROM Usr u WHERE u.height = :height")
+    , @NamedQuery(name = "Usr.findByUserWeight", query = "SELECT u FROM Usr u WHERE u.weight = :weight")
+    , @NamedQuery(name = "Usr.findByUserGender", query = "SELECT u FROM Usr u WHERE u.gender = :gender")
+    , @NamedQuery(name = "Usr.findByUserAddress", query = "SELECT u FROM Usr u WHERE u.address = :address")
+    , @NamedQuery(name = "Usr.findByUserPostcode", query = "SELECT u FROM Usr u WHERE u.postcode = :postcode")
     , @NamedQuery(name = "Usr.findByLevelOfActivity", query = "SELECT u FROM Usr u WHERE u.levelOfActivity = :levelOfActivity")
     , @NamedQuery(name = "Usr.findByStepsPerMile", query = "SELECT u FROM Usr u WHERE u.stepsPerMile = :stepsPerMile")})
 public class Usr implements Serializable {
@@ -59,49 +59,49 @@ public class Usr implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "USER_FNAME")
-    private String userFname;
+    @Column(name = "FNAME")
+    private String fname;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "USER_LNAME")
-    private String userLname;
+    @Column(name = "LNAME")
+    private String lname;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "USER_EMAIL")
-    private String userEmail;
+    @Column(name = "EMAIL")
+    private String email;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USER_DOB")
+    @Column(name = "DOB")
     @Temporal(TemporalType.DATE)
-    private Date userDob;
+    private Date dob;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USER_HEIGHT")
-    private BigDecimal userHeight;
+    @Column(name = "HEIGHT")
+    private BigDecimal height;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USER_WEIGHT")
-    private BigDecimal userWeight;
+    @Column(name = "WEIGHT")
+    private BigDecimal weight;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USER_GENDER")
-    private Character userGender;
+    @Column(name = "GENDER")
+    private Character gender;
     @Size(max = 100)
-    @Column(name = "USER_ADDRESS")
-    private String userAddress;
+    @Column(name = "ADDRESS")
+    private String address;
     @Size(max = 4)
-    @Column(name = "USER_POSTCODE")
-    private String userPostcode;
+    @Column(name = "POSTCODE")
+    private String postcode;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "LEVEL_OF_ACTIVITY")
+    @Column(name = "LEVELOFACTIVITY")
     private int levelOfActivity;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "STEPS_PER_MILE")
+    @Column(name = "STEPSPERMILE")
     private int stepsPerMile;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Credential> credentialCollection;
@@ -119,13 +119,13 @@ public class Usr implements Serializable {
 
     public Usr(Integer userId, String userFname, String userLname, String userEmail, Date userDob, BigDecimal userHeight, BigDecimal userWeight, Character userGender, int levelOfActivity, int stepsPerMile) {
         this.userId = userId;
-        this.userFname = userFname;
-        this.userLname = userLname;
-        this.userEmail = userEmail;
-        this.userDob = userDob;
-        this.userHeight = userHeight;
-        this.userWeight = userWeight;
-        this.userGender = userGender;
+        this.fname = userFname;
+        this.lname = userLname;
+        this.email = userEmail;
+        this.dob = userDob;
+        this.height = userHeight;
+        this.weight = userWeight;
+        this.gender = userGender;
         this.levelOfActivity = levelOfActivity;
         this.stepsPerMile = stepsPerMile;
     }
@@ -138,76 +138,76 @@ public class Usr implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserFname() {
-        return userFname;
+    public String getFname() {
+        return fname;
     }
 
-    public void setUserFname(String userFname) {
-        this.userFname = userFname;
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 
-    public String getUserLname() {
-        return userLname;
+    public String getLname() {
+        return lname;
     }
 
-    public void setUserLname(String userLname) {
-        this.userLname = userLname;
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Date getUserDob() {
-        return userDob;
+    public Date getDob() {
+        return dob;
     }
 
-    public void setUserDob(Date userDob) {
-        this.userDob = userDob;
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
-    public BigDecimal getUserHeight() {
-        return userHeight;
+    public BigDecimal getHeight() {
+        return height;
     }
 
-    public void setUserHeight(BigDecimal userHeight) {
-        this.userHeight = userHeight;
+    public void setHeight(BigDecimal height) {
+        this.height = height;
     }
 
-    public BigDecimal getUserWeight() {
-        return userWeight;
+    public BigDecimal getWeight() {
+        return weight;
     }
 
-    public void setUserWeight(BigDecimal userWeight) {
-        this.userWeight = userWeight;
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
     }
 
-    public Character getUserGender() {
-        return userGender;
+    public Character getGender() {
+        return gender;
     }
 
-    public void setUserGender(Character userGender) {
-        this.userGender = userGender;
+    public void setGender(Character gender) {
+        this.gender = gender;
     }
 
-    public String getUserAddress() {
-        return userAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getUserPostcode() {
-        return userPostcode;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setUserPostcode(String userPostcode) {
-        this.userPostcode = userPostcode;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
     public int getLevelOfActivity() {
