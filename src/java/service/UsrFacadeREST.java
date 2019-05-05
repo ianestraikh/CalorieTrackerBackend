@@ -46,8 +46,10 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Usr entity) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public Usr create(Usr entity) {
         super.create(entity);
+        return entity;
     }
 
     @PUT

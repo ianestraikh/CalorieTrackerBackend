@@ -43,8 +43,10 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Credential entity) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public Credential create(Credential entity) {
         super.create(entity);
+        return entity;
     }
 
     @PUT
@@ -154,5 +156,16 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
         } catch (ParseException e) {
             throw new IllegalArgumentException("signupDate must have 'yyyy-MM-dd' format.");
         }
+    }
+    
+    //--------------------------------------------------------------------------
+    // Assignment 3 Extension
+    @GET
+    @Path("usernameExists/{username}")
+    @Produces({"text/plain"})
+    public int usernameExists(@PathParam("username") String username) {
+        Query query = em.createQuery("SELECT c.username FROM Credential c WHERE c.username = :username");
+        query.setParameter("username", username);
+        return query.getResultList().size();
     }
 }

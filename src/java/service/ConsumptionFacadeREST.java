@@ -43,8 +43,10 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Consumption entity) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public Consumption create(Consumption entity) {
         super.create(entity);
+        return entity;
     }
 
     @PUT
