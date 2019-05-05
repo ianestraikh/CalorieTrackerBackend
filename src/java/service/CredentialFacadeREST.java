@@ -155,4 +155,15 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
             throw new IllegalArgumentException("signupDate must have 'yyyy-MM-dd' format.");
         }
     }
+    
+    //--------------------------------------------------------------------------
+    // Assignment 3 Extension
+    @GET
+    @Path("usernameExists/{username}")
+    @Produces({"text/plain"})
+    public int usernameExists(@PathParam("username") String username) {
+        Query query = em.createQuery("SELECT c.username FROM Credential c WHERE c.username = :username");
+        query.setParameter("username", username);
+        return query.getResultList().size();
+    }
 }
