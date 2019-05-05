@@ -24,7 +24,7 @@ create table credential (
         generated always as identity (start with 1, increment by 1),
     username varchar(50) not null constraint cred_username_unique unique,
     user_id int not null constraint cred_user_fk references usr(user_id),
-    password_hash char(128) not null, 
+    password_hash varchar(128) not null,
     signup_date date not null
 );
 
