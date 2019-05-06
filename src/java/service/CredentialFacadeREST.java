@@ -43,8 +43,10 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Credential entity) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public Credential create(Credential entity) {
         super.create(entity);
+        return entity;
     }
 
     @PUT
