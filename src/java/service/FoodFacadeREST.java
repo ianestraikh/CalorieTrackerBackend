@@ -157,9 +157,9 @@ public class FoodFacadeREST extends AbstractFacade<Food> {
     }
     
     //--------------------------------------------------------------------------
-    // Assigment 3 Extension
+    // Assignment 3 Extension
     @GET
-    @Path("getFoodCategories")
+    @Path("getFoodCategories/")
     @Produces({"application/json"})
     public Object getFoodCategories() {
         Query query = em.createQuery("SELECT f.foodCategory FROM Food f GROUP BY f.foodCategory");
@@ -170,7 +170,7 @@ public class FoodFacadeREST extends AbstractFacade<Food> {
             jsonArrayBuilder.add(list.get(i));
         }
         return Json.createObjectBuilder()
-                .add("Category", jsonArrayBuilder)
+                .add("category", jsonArrayBuilder)
                 .build();
     }
 
