@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -97,13 +99,14 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
 
     //--------------------------------------------------------------------------
     // Task 3 a
+    // Changed for Assignment 3
     @GET
     @Path("findByUsername/{username}")
     @Produces({"application/json"})
-    public List<Credential> findByUsername(@PathParam("username") String username) {
+    public Credential findByUsername(@PathParam("username") String username) {
         Query query = em.createNamedQuery("Credential.findByUsername");
         query.setParameter("username", username);
-        return query.getResultList();
+        return (Credential) query.getSingleResult();
     }
 
     @GET
@@ -162,10 +165,12 @@ public class CredentialFacadeREST extends AbstractFacade<Credential> {
     // Assignment 3 Extension
     @GET
     @Path("usernameExists/{username}")
-    @Produces({"text/plain"})
-    public int usernameExists(@PathParam("username") String username) {
+    @Produces({"application/json"})
+    public Object usernameExists(@PathParam("username") String username) {
         Query query = em.createQuery("SELECT c.username FROM Credential c WHERE c.username = :username");
         query.setParameter("username", username);
-        return query.getResultList().size();
+        return Json.createObjectBuilder()
+                .add("usernameExists", query.getResultList().size())
+                .build();
     }
 }

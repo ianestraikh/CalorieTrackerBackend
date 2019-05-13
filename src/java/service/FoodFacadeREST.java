@@ -9,6 +9,9 @@ import entities.Food;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -151,6 +154,24 @@ public class FoodFacadeREST extends AbstractFacade<Food> {
         Query query = em.createNamedQuery("Food.findByFat");
         query.setParameter("fat", fat);
         return query.getResultList();
+    }
+    
+    //--------------------------------------------------------------------------
+    // Assigment 3 Extension
+    @GET
+    @Path("getFoodCategories")
+    @Produces({"application/json"})
+    public Object getFoodCategories() {
+        Query query = em.createQuery("SELECT f.foodCategory FROM Food f GROUP BY f.foodCategory");
+        List<String> list = query.getResultList();
+        
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            jsonArrayBuilder.add(list.get(i));
+        }
+        return Json.createObjectBuilder()
+                .add("Category", jsonArrayBuilder)
+                .build();
     }
 
 }
