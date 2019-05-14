@@ -118,7 +118,7 @@ public class FoodFacadeREST extends AbstractFacade<Food> {
     @GET
     @Path("findByCalorieAmount/{calorieAmount}")
     @Produces({"application/json"})
-    public List<Food> findByCalorieAmount(@PathParam("calorieAmount") int calorieAmount) {
+    public List<Food> findByCalorieAmount(@PathParam("calorieAmount") BigDecimal calorieAmount) {
         Query query = em.createNamedQuery("Food.findByCalorieAmount");
         query.setParameter("calorieAmount", calorieAmount);
         return query.getResultList();
@@ -150,7 +150,7 @@ public class FoodFacadeREST extends AbstractFacade<Food> {
     @GET
     @Path("findByFat/{fat}")
     @Produces({"application/json"})
-    public List<Food> findByFat(@PathParam("fat") int fat) {
+    public List<Food> findByFat(@PathParam("fat") BigDecimal fat) {
         Query query = em.createNamedQuery("Food.findByFat");
         query.setParameter("fat", fat);
         return query.getResultList();

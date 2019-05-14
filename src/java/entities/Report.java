@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -54,11 +55,11 @@ public class Report implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "CALORIES_CONSUMED")
-    private int caloriesConsumed;
+    private BigDecimal caloriesConsumed;
     @Basic(optional = false)
     @NotNull
     @Column(name = "CALORIES_BURNED")
-    private int caloriesBurned;
+    private BigDecimal caloriesBurned;
     @Basic(optional = false)
     @NotNull
     @Column(name = "STEPS_TAKEN")
@@ -66,7 +67,7 @@ public class Report implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "CALORIE_GOAL")
-    private int calorieGoal;
+    private BigDecimal calorieGoal;
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     @ManyToOne(optional = false)
     private Usr userId;
@@ -78,7 +79,7 @@ public class Report implements Serializable {
         this.reportId = reportId;
     }
 
-    public Report(Integer reportId, Date reportDate, int caloriesConsumed, int caloriesBurned, int stepsTaken, int calorieGoal) {
+    public Report(Integer reportId, Date reportDate, BigDecimal caloriesConsumed, BigDecimal caloriesBurned, int stepsTaken, BigDecimal calorieGoal) {
         this.reportId = reportId;
         this.reportDate = reportDate;
         this.caloriesConsumed = caloriesConsumed;
@@ -103,19 +104,19 @@ public class Report implements Serializable {
         this.reportDate = reportDate;
     }
 
-    public int getCaloriesConsumed() {
+    public BigDecimal getCaloriesConsumed() {
         return caloriesConsumed;
     }
 
-    public void setCaloriesConsumed(int caloriesConsumed) {
+    public void setCaloriesConsumed(BigDecimal caloriesConsumed) {
         this.caloriesConsumed = caloriesConsumed;
     }
 
-    public int getCaloriesBurned() {
+    public BigDecimal getCaloriesBurned() {
         return caloriesBurned;
     }
 
-    public void setCaloriesBurned(int caloriesBurned) {
+    public void setCaloriesBurned(BigDecimal caloriesBurned) {
         this.caloriesBurned = caloriesBurned;
     }
 
@@ -127,11 +128,11 @@ public class Report implements Serializable {
         this.stepsTaken = stepsTaken;
     }
 
-    public int getCalorieGoal() {
+    public BigDecimal getCalorieGoal() {
         return calorieGoal;
     }
 
-    public void setCalorieGoal(int calorieGoal) {
+    public void setCalorieGoal(BigDecimal calorieGoal) {
         this.calorieGoal = calorieGoal;
     }
 

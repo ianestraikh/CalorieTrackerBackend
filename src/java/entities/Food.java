@@ -61,7 +61,7 @@ public class Food implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "CALORIE_AMOUNT")
-    private int calorieAmount;
+    private BigDecimal calorieAmount;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -75,7 +75,7 @@ public class Food implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "FAT")
-    private int fat;
+    private BigDecimal fat;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "foodId")
     private Collection<Consumption> consumptionCollection;
 
@@ -86,7 +86,7 @@ public class Food implements Serializable {
         this.foodId = foodId;
     }
 
-    public Food(Integer foodId, String foodName, String foodCategory, int calorieAmount, String servingUnit, BigDecimal servingAmount, int fat) {
+    public Food(Integer foodId, String foodName, String foodCategory, BigDecimal calorieAmount, String servingUnit, BigDecimal servingAmount, BigDecimal fat) {
         this.foodId = foodId;
         this.foodName = foodName;
         this.foodCategory = foodCategory;
@@ -120,11 +120,11 @@ public class Food implements Serializable {
         this.foodCategory = foodCategory;
     }
 
-    public int getCalorieAmount() {
+    public BigDecimal getCalorieAmount() {
         return calorieAmount;
     }
 
-    public void setCalorieAmount(int calorieAmount) {
+    public void setCalorieAmount(BigDecimal calorieAmount) {
         this.calorieAmount = calorieAmount;
     }
 
@@ -144,11 +144,11 @@ public class Food implements Serializable {
         this.servingAmount = servingAmount;
     }
 
-    public int getFat() {
+    public BigDecimal getFat() {
         return fat;
     }
 
-    public void setFat(int fat) {
+    public void setFat(BigDecimal fat) {
         this.fat = fat;
     }
 

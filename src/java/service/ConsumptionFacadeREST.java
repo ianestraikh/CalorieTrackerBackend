@@ -6,6 +6,7 @@
 package service;
 
 import entities.Consumption;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -160,7 +161,7 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
     @GET
     @Path("findByCalorieAmountGreaterThanAndUserGender/{calorieAmount}/{userGender}")
     @Produces({"application/json"})
-    public List<Consumption> findByCalorieAmountAndUserGender(@PathParam("calorieAmount") int calorieAmount, @PathParam("userGender") String userGenderString) {
+    public List<Consumption> findByCalorieAmountAndUserGender(@PathParam("calorieAmount") BigDecimal calorieAmount, @PathParam("userGender") String userGenderString) {
         if (userGenderString.equals("F") || userGenderString.equals("M")) {
             Character userGender = userGenderString.charAt(0);
             TypedQuery<Consumption> query = em.createQuery("SELECT c FROM Consumption c WHERE c.foodId.calorieAmount > :calorieAmount and c.userId.userGender = :userGender", Consumption.class);
@@ -177,13 +178,13 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
     @GET
     @Path("calculateTotalCaloriesConsumed/{userId}/{consumptionDate}")
     @Produces({"text/plain"})
-    public int calculateTotalCaloriesConsumed(@PathParam("userId") int userId, @PathParam("consumptionDate") String consumptionDateString) {
+    public BigDecimal calculateTotalCaloriesConsumed(@PathParam("userId") int userId, @PathParam("consumptionDate") String consumptionDateString) {
         List<Consumption> consumptions = findByUserIdAndConsumptionDate(userId, consumptionDateString);
-        int totalCaloriesAmount = 0;
+        double totalCaloriesAmount = 0;
         for (Consumption c: consumptions) {
-            int caloriesAmount = c.getFoodId().getCalorieAmount() * c.getQuantity();
+            double caloriesAmount = c.getFoodId().getCalorieAmount().doubleValue() * c.getQuantity();
             totalCaloriesAmount += caloriesAmount;
         }
-        return totalCaloriesAmount;
+        return BigDecimal.valueOf(totalCaloriesAmount);
     }
 }

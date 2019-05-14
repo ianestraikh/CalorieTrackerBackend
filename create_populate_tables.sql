@@ -34,10 +34,10 @@ create table food (
         generated always as identity (start with 1, increment by 1),
     food_name varchar(100) not null,
     food_category varchar(50) not null,
-    calorie_amount int not null,
+    calorie_amount decimal(9,4) not null,
     serving_unit varchar(10) not null,
     serving_amount decimal(9,4) not null,
-    fat int not null
+    fat decimal(9,4) not null
 );
 
 /*Creating Consumption table:*/
@@ -57,10 +57,10 @@ create table report (
         generated always as identity (start with 1, increment by 1),
     user_id int not null constraint report_user_fk references usr(user_id),
     report_date date not null,
-    calories_consumed int not null,
-    calories_burned int not null,
+    calories_consumed decimal(9,4) not null,
+    calories_burned decimal(9,4) not null,
     steps_taken int not null,
-    calorie_goal int not null,
+    calorie_goal decimal(9,4) not null,
     constraint report_unique unique (user_id, report_date)
 );
 

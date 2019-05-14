@@ -6,6 +6,7 @@
 package service;
 
 import entities.Report;
+import java.math.BigDecimal;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -119,7 +120,7 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
     @GET
     @Path("findByCaloriesConsumed/{caloriesConsumed}")
     @Produces({"application/json"})
-    public List<Report> findByCaloriesConsumed(@PathParam("caloriesConsumed") int caloriesConsumed) {
+    public List<Report> findByCaloriesConsumed(@PathParam("caloriesConsumed") BigDecimal caloriesConsumed) {
         Query query = em.createNamedQuery("Report.findByCaloriesConsumed");
         query.setParameter("caloriesConsumed", caloriesConsumed);
         return query.getResultList();
@@ -128,7 +129,7 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
     @GET
     @Path("findByCaloriesBurned/{caloriesBurned}")
     @Produces({"application/json"})
-    public List<Report> findByCaloriesBurned(@PathParam("caloriesBurned") int caloriesBurned) {
+    public List<Report> findByCaloriesBurned(@PathParam("caloriesBurned") BigDecimal caloriesBurned) {
         Query query = em.createNamedQuery("Report.findByCaloriesBurned");
         query.setParameter("caloriesBurned", caloriesBurned);
         return query.getResultList();
@@ -177,10 +178,10 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
                 throw new SQLIntegrityConstraintViolationException("userId and reportDate unique constraint was violated.");
             }
 
-            int caloriesConsumed = (int) queryList.get(0)[0];
-            int caloriesBurned = (int) queryList.get(0)[1];
-            int goal = (int) queryList.get(0)[2];
-            int remainingCalories =  (caloriesConsumed - caloriesBurned) - goal;
+            double caloriesConsumed = ((BigDecimal) queryList.get(0)[0]).doubleValue();
+            double caloriesBurned = ((BigDecimal) queryList.get(0)[1]).doubleValue();
+            double goal = ((BigDecimal) queryList.get(0)[2]).doubleValue();
+            double remainingCalories =  (caloriesConsumed - caloriesBurned) - goal;
             JsonObject jsonObject = Json.createObjectBuilder()
                     .add("caloriesConsumed", caloriesConsumed)
                     .add("caloriesBurned", caloriesBurned)
@@ -207,12 +208,12 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
             query.setParameter("endDate", endDate);
             List<Object[]> queryResult = query.getResultList();
 
-            int totalCaloriesConsumed = 0;
-            int totalCaloriesBurned = 0;
+            double totalCaloriesConsumed = 0;
+            double totalCaloriesBurned = 0;
             int totalStepsTaken = 0;
             for (Object[] row : queryResult) {
-                totalCaloriesConsumed += (int) row[0];
-                totalCaloriesBurned += (int) row[1];
+                totalCaloriesConsumed += ((BigDecimal) row[0]).doubleValue();
+                totalCaloriesBurned += ((BigDecimal) row[1]).doubleValue();
                 totalStepsTaken += (int) row[2];
             }
             JsonObject jsonObject = Json.createObjectBuilder()
