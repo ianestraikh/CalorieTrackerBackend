@@ -32,10 +32,10 @@ create table credential (
 create table food (
     food_id int not null constraint food_pk primary key
         generated always as identity (start with 1, increment by 1),
-    food_name varchar(100) not null,
-    food_category varchar(50) not null,
+    food_name varchar(300) not null,
+    food_category varchar(300) not null,
     calorie_amount decimal(9,4) not null,
-    serving_unit varchar(10) not null,
+    serving_unit varchar(300) not null,
     serving_amount decimal(9,4) not null,
     fat decimal(9,4) not null
 );
