@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -177,14 +179,18 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
     // Task 4 d
     @GET
     @Path("calculateTotalCaloriesConsumed/{userId}/{consumptionDate}")
-    @Produces({"text/plain"})
-    public BigDecimal calculateTotalCaloriesConsumed(@PathParam("userId") int userId, @PathParam("consumptionDate") String consumptionDateString) {
+    @Produces({"application/json"})
+    public Object calculateTotalCaloriesConsumed(@PathParam("userId") int userId, @PathParam("consumptionDate") String consumptionDateString) {
         List<Consumption> consumptions = findByUserIdAndConsumptionDate(userId, consumptionDateString);
         double totalCaloriesAmount = 0;
         for (Consumption c: consumptions) {
             double caloriesAmount = c.getFoodId().getCalorieAmount().doubleValue() * c.getQuantity();
             totalCaloriesAmount += caloriesAmount;
         }
-        return BigDecimal.valueOf(totalCaloriesAmount);
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("caloriesConsumed", BigDecimal.valueOf(totalCaloriesAmount))
+                .build();
+        
+        return jsonObject;
     }
 }
