@@ -15,6 +15,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -285,5 +287,22 @@ public class UsrFacadeREST extends AbstractFacade<Usr> {
                 return 0.0;
         }
     }
-    
+
+    //--------------------------------------------------------------------------
+    // Assignment 3 Extension
+    // Calculate calories burned by steps + total per day
+    @GET
+    @Path("calculateCaloriesBurned/{userId}/{steps}")
+    @Produces({"application/json"})
+    public Object calculateCaloriesBurned(@PathParam("userId") int userId, @PathParam("steps") int steps) {
+        double calBurnedBySteps = calculateCaloriesBurnedPerStep(userId) * steps;
+        double calBurnedPerDay = calculateTotalCaloriesBurned(userId);
+        BigDecimal total = BigDecimal.valueOf(calBurnedBySteps + calBurnedPerDay);
+        
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("caloriesBurned", total.setScale(2, BigDecimal.ROUND_HALF_UP))
+                .build();
+        return jsonObject;
+    }
+
 }

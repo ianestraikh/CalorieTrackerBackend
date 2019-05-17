@@ -187,10 +187,10 @@ public class ConsumptionFacadeREST extends AbstractFacade<Consumption> {
             double caloriesAmount = c.getFoodId().getCalorieAmount().doubleValue() * c.getQuantity();
             totalCaloriesAmount += caloriesAmount;
         }
+        BigDecimal total = BigDecimal.valueOf(totalCaloriesAmount);
         JsonObject jsonObject = Json.createObjectBuilder()
-                .add("caloriesConsumed", BigDecimal.valueOf(totalCaloriesAmount))
+                .add("caloriesConsumed", total.setScale(2, BigDecimal.ROUND_HALF_UP))
                 .build();
-        
         return jsonObject;
     }
 }
