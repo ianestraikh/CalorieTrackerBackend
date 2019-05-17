@@ -47,8 +47,8 @@ create table consumption (
     user_id int not null constraint consum_user_fk references usr(user_id),
     consumption_date date not null,
     food_id int not null constraint consum_food_fk references food(food_id),
-    quantity int not null,
-    constraint consum_unique unique (user_id, consumption_date, food_id)
+    quantity int not null
+    /*constraint consum_unique unique (user_id, consumption_date, food_id)*/
 );
 
 /*Creating Report table:*/
