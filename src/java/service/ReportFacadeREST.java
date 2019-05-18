@@ -8,6 +8,7 @@ package service;
 import entities.Report;
 import java.math.BigDecimal;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -181,7 +182,7 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
             double caloriesConsumed = ((BigDecimal) queryList.get(0)[0]).doubleValue();
             double caloriesBurned = ((BigDecimal) queryList.get(0)[1]).doubleValue();
             double goal = ((BigDecimal) queryList.get(0)[2]).doubleValue();
-            double remainingCalories =  (caloriesConsumed - caloriesBurned) - goal;
+            double remainingCalories = (caloriesConsumed - caloriesBurned) - goal;
             JsonObject jsonObject = Json.createObjectBuilder()
                     .add("caloriesConsumed", caloriesConsumed)
                     .add("caloriesBurned", caloriesBurned)
@@ -221,6 +222,39 @@ public class ReportFacadeREST extends AbstractFacade<Report> {
                     .add("totalCaloriesBurned", totalCaloriesBurned)
                     .add("totalStepsTaken", totalStepsTaken).build();
             return jsonObject;
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("reportDate must have 'yyyy-MM-dd' format.");
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // Assignment 3 Extension
+    // ref: https://stackoverflow.com/questions/5050170/how-do-i-get-a-date-without-time-in-java
+    @GET
+    @Path("getReportPerDay/{userId}/{startDate}/{endDate}")
+    @Produces({"application/json"})
+    public JsonArray getReportPerDay(@PathParam("userId") int userId, @PathParam("startDate") String startDateString, @PathParam("endDate") String endDateString) {
+        try {
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDateString);
+            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDateString);
+            TypedQuery<Object[]> query = em.createQuery("SELECT r.reportDate, r.caloriesConsumed, r.caloriesBurned FROM Report AS r WHERE r.userId.userId = :userId AND r.reportDate BETWEEN :startDate and :endDate", Object[].class);
+            query.setParameter("userId", userId);
+            query.setParameter("startDate", startDate);
+            query.setParameter("endDate", endDate);
+            List<Object[]> list = query.getResultList();
+            
+            JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            for (int i = 0; i < list.size(); i++) {
+                Date day = dateFormat.parse(dateFormat.format(((Date) list.get(i)[0])));
+                JsonObject jsonObject = Json.createObjectBuilder()
+                        .add("reportDate", day.getTime())
+                        .add("caloriesConsumed", (BigDecimal) list.get(i)[1])
+                        .add("caloriesBurned", (BigDecimal) list.get(i)[2])
+                        .build();
+                jsonArrayBuilder.add(jsonObject);
+            }
+            return jsonArrayBuilder.build();
         } catch (ParseException e) {
             throw new IllegalArgumentException("reportDate must have 'yyyy-MM-dd' format.");
         }
