@@ -87,53 +87,53 @@ insert into
         180, 
         70.2, 
         'M', 
-        'Malvern East 20 Dandenong Road', 
-        '3145', 
+        '1062 Dandenong Rd, Carnegie, Victoria', 
+        '3163', 
         1,
         1500
     );
 insert into usr (fname, lname, email, dob, height, weight, gender, address, postcode, levelofactivity, stepspermile) 
-    values ('Bill', 'Graham', 'billgraham@gmail.com', '1982-01-01', 176, 65, 'M', 'Malvern East 758 Dandenong Road', '3145', 3, 1800);   
+    values ('Bill', 'Graham', 'billgraham@gmail.com', '1982-01-01', 176, 65, 'M', '141 Franklin St, Melbourne, Victoria', '3000', 3, 1800);   
 insert into usr (fname, lname, email, dob, height, weight, gender, address, postcode, levelofactivity, stepspermile) 
-    values ('Anna', 'Lucia', 'annalucia@gmail.com', '1994-05-01', 180, 60, 'F', 'Carnegie 105 Carnegie Road', '3045', 5, 2500);
+    values ('Anna', 'Lucia', 'annalucia@gmail.com', '1994-05-01', 180, 60, 'F', '143 Summerhill Rd, Footscray, Victoria', '3011', 5, 2500);
 insert into usr (fname, lname, email, dob, height, weight, gender, address, postcode, levelofactivity, stepspermile) 
-    values ('Marta', 'Black', 'martablack@gmail.com', '1987-12-31', 170, 70, 'F', 'Caulfield 1087 Caulfield Road', '3089', 2, 1600);
+    values ('Marta', 'Black', 'martablack@gmail.com', '1987-12-31', 170, 70, 'F', '20 Suzanne St, Seven Hills, NSW', '2147', 2, 1600);
 insert into usr (fname, lname, email, dob, height, weight, gender, address, postcode, levelofactivity, stepspermile) 
-    values ('Lucy', 'Johnson', 'lucyjohnson@gmail.com', '1998-05-01', 165, 58, 'F', 'Clayton 58 College Way', '3788', 4, 2300);
+    values ('Lucy', 'Johnson', 'lucyjohnson@gmail.com', '1998-05-01', 165, 58, 'F', '12 Greenacre Terrace, Northfield, SA', '5085', 4, 2300);
 
 /*Populating Credential table:*/
 insert into credential(username, user_id, password_hash, signup_date) 
     values(
-        'john1973',
-        1,       'E0B50E3ADB85CE07A41196709BA642886BA828A354ACEE42EAE7559BC7C623981897F56020699ED61FA052F4784BF37E76EFF016EE065D77BC158DD172EABD76',
+        'user1',
+        1,       '$2a$06$3Jnrb4MWhZFK1.CTEsLw/ePLFJhF8DAqkpmSC5Iz0HkUDFq4HpAQq',
         '2019-03-16'
     );  
 insert into credential(username, user_id, password_hash, signup_date) 
     values(
-        'billy007',
+        'user2',
         2,
-'E0B50E3ADB85CE07A41196709BA642886BA828A354ACEE42EAE7559BC7C623981897F56020699ED61FA052F4784BF37E76EFF016EE065D77BC158DD172EABD76',
+'$2a$06$3Jnrb4MWhZFK1.CTEsLw/ePLFJhF8DAqkpmSC5Iz0HkUDFq4HpAQq',
         '2019-03-16'
     ); 
 insert into credential(username, user_id, password_hash, signup_date) 
     values(
-        'annathebest',
+        'user3',
         3,
-'E0B50E3ADB85CE07A41196709BA642886BA828A354ACEE42EAE7559BC7C623981897F56020699ED61FA052F4784BF37E76EFF016EE065D77BC158DD172EABD76',
+'$2a$06$3Jnrb4MWhZFK1.CTEsLw/ePLFJhF8DAqkpmSC5Iz0HkUDFq4HpAQq',
         '2019-03-16'
     );  
 insert into credential(username, user_id, password_hash, signup_date) 
     values(
-        'marta',
+        'user4',
         4,
-'E0B50E3ADB85CE07A41196709BA642886BA828A354ACEE42EAE7559BC7C623981897F56020699ED61FA052F4784BF37E76EFF016EE065D77BC158DD172EABD76',
+'$2a$06$3Jnrb4MWhZFK1.CTEsLw/ePLFJhF8DAqkpmSC5Iz0HkUDFq4HpAQq',
         '2019-03-16'
     );   
 insert into credential(username, user_id, password_hash, signup_date) 
     values(
-        'lucy',
+        'user5',
         5,
-'E0B50E3ADB85CE07A41196709BA642886BA828A354ACEE42EAE7559BC7C623981897F56020699ED61FA052F4784BF37E76EFF016EE065D77BC158DD172EABD76',
+'$2a$06$3Jnrb4MWhZFK1.CTEsLw/ePLFJhF8DAqkpmSC5Iz0HkUDFq4HpAQq',
         '2019-03-16'
     );
 
@@ -194,16 +194,16 @@ insert into consumption(user_id, consumption_date, food_id, quantity)
 
 /*Populating Report table:*/
 insert into report (user_id, report_date, calories_consumed, calories_burned, steps_taken, calorie_goal) 
-    values (1, '2019-03-24', 2448, 2000, 2000, 100);
+    values (1, '2019-04-24', 2448, 2000, 2000, 100);
 insert into report (user_id, report_date, calories_consumed, calories_burned, steps_taken, calorie_goal) 
-    values (1, '2019-03-25', 2320, 1894, 2000, 100);
+    values (1, '2019-04-25', 2320, 1894, 2000, 100);
 insert into report (user_id, report_date, calories_consumed, calories_burned, steps_taken, calorie_goal) 
-    values (1, '2019-03-26', 2420, 1900, 2000, 100);
+    values (1, '2019-04-26', 2420, 1900, 2000, 100);
 insert into report (user_id, report_date, calories_consumed, calories_burned, steps_taken, calorie_goal) 
-    values (2, '2019-03-24', 1898, 1600, 2000, 100);
+    values (2, '2019-04-24', 1898, 1600, 2000, 100);
 insert into report (user_id, report_date, calories_consumed, calories_burned, steps_taken, calorie_goal) 
-    values (2, '2019-03-25', 1895, 1600, 2000, 100);
+    values (2, '2019-04-25', 1895, 1600, 2000, 100);
 insert into report (user_id, report_date, calories_consumed, calories_burned, steps_taken, calorie_goal) 
-    values (2, '2019-03-26', 1789, 1230, 2000, 100);
+    values (2, '2019-04-26', 1789, 1230, 2000, 100);
 insert into report (user_id, report_date, calories_consumed, calories_burned, steps_taken, calorie_goal) 
-    values (3, '2019-03-24', 1999, 1500, 2000, 100);
+    values (3, '2019-04-24', 1999, 1500, 2000, 100);
